@@ -1,11 +1,28 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { MONGO_URL } from '../constants';
+import Joi from 'joi';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
-  imports: [],
+  imports: [
+    ConfigModule.forRoot({
+      validationSchema: Joi.object({
+        [MONGO_URL]: Joi.string().required(),
+      }),
+    }),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        uri: configService.get(MONGO_URL),
+      }),
+      inject: [ConfigService],
+    }),
+  ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, ConfigService],
 })
 export class AppModule {}
