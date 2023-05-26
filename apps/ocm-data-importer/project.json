@@ -1,0 +1,64 @@
+{
+  "name": "ocm-data-importer",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/ocm-data-importer/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/ocm-data-importer",
+        "main": "apps/ocm-data-importer/src/main.ts",
+        "tsConfig": "apps/ocm-data-importer/tsconfig.app.json",
+        "assets": ["apps/ocm-data-importer/src/assets"],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/ocm-data-importer/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "ocm-data-importer:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "ocm-data-importer:build:development"
+        },
+        "production": {
+          "buildTarget": "ocm-data-importer:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/ocm-data-importer/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/ocm-data-importer/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}
