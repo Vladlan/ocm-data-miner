@@ -5,78 +5,68 @@ import { OperatorInfoSchema } from './operator-info.schema';
 import { StatusTypeSchema } from './status-type.schema';
 import { Types } from 'mongoose';
 import { UUID } from 'bson';
-import { IAddressInfo, IConnectionType, IConnections, IOperatorInfo, IStatusType } from '../../types';
-import { ConnectionsModel } from '../../models';
+import {
+  IAddressInfo,
+  IConnectionType,
+  IConnections,
+  ICurrentType,
+  ILevel,
+  IOperatorInfo,
+  IStatusType,
+} from '../../types';
+import { type } from 'os';
+import { CurrentTypeSchema } from './current-type.schema';
+import { LevelSchema } from './level.schema';
+// import { ConnectionsModel } from '../../models';
+import { ConnectionTypeSchema } from './connection-type.schema';
 
 export type POIDocument = POISchema & Document;
 
-// TO MAKE ConnectionsModel work we should uncomment this code and comment the ConnectionsModel 
-// @Schema({
-//   storeSubdocValidationError: false,
-//   strict: false,
-// })
-// export class ConnectionsSchema extends Document {
-//   @Prop()
-//   ID: number;
+// TO MAKE ConnectionsModel work we should uncomment this code and comment the ConnectionsModel
+@Schema({
+  storeSubdocValidationError: false,
+  strict: false,
+})
+export class ConnectionsSchema extends Document {
+  @Prop()
+  ID: number;
 
-//   @Prop()
-//   ConnectionTypeID: number;
+  @Prop()
+  ConnectionTypeID: number;
 
-//   @Prop(
-//     raw({
-//       FormalName: { type: String },
-//       IsDiscontinued: { type: Boolean },
-//       IsObsolete: { type: Boolean },
-//       ID: { type: Number },
-//       Title: { type: String },
-//     })
-//   )
-//   ConnectionType: IConnectionType;
+  @Prop({
+    type: ConnectionTypeSchema,
+    _id: false,
+  })
+  ConnectionType: IConnectionType;
 
-//   @Prop(
-//     raw({
-//       IsOperational: { type: Boolean },
-//       IsUserSelectable: { type: Boolean },
-//       ID: { type: Number },
-//       Title: { type: String },
-//     })
-//   )
-//   StatusType: Record<string, any>;
+  @Prop({
+    type: StatusTypeSchema,
+    _id: false,
+  })
+  StatusType: IStatusType;
 
-//   @Prop()
-//   StatusTypeID: number;
+  @Prop()
+  StatusTypeID: number;
 
-//   @Prop(
-//     raw({
-//       Comments: { type: String },
-//       IsFastChargeCapable: { type: Boolean },
-//       ID: { type: Number },
-//       Title: { type: String },
-//     })
-//   )
-//   Level: Record<string, any>;
+  @Prop({ type: LevelSchema, _id: false })
+  Level: ILevel;
 
-//   @Prop()
-//   LevelID: number;
-//   @Prop()
-//   PowerKW: number;
-//   @Prop()
-//   CurrentTypeID: number;
+  @Prop()
+  LevelID: number;
+  @Prop()
+  PowerKW: number;
+  @Prop()
+  CurrentTypeID: number;
 
-//   @Prop(
-//     raw({
-//       Description: { type: String },
-//       ID: { type: Number },
-//       Title: { type: String },
-//     })
-//   )
-//   CurrentType: Record<string, any>;
+  @Prop({ type: CurrentTypeSchema, _id: false })
+  CurrentType: ICurrentType;
 
-//   @Prop()
-//   Quantity: number;
-// }
+  @Prop()
+  Quantity: number;
+}
 
-// export const ConnectionsModel = SchemaFactory.createForClass(ConnectionsSchema);
+export const ConnectionsModel = SchemaFactory.createForClass(ConnectionsSchema);
 
 @Schema({
   storeSubdocValidationError: false,
