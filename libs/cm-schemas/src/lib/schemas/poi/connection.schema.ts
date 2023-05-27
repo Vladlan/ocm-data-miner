@@ -2,9 +2,12 @@ import { Prop, Schema, raw } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { IConnectionType } from '../../types';
 
-@Schema()
+@Schema({
+  storeSubdocValidationError: false,
+  strict: false,
+})
 export class ConnectionsSchema extends Document {
-  @Prop({instance: 'ObjectID'})
+  @Prop()
   ID: number;
 
   @Prop()
