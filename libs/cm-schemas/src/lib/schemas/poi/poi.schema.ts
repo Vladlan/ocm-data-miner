@@ -14,7 +14,6 @@ import {
   IOperatorInfo,
   IStatusType,
 } from '../../types';
-import { type } from 'os';
 import { CurrentTypeSchema } from './current-type.schema';
 import { LevelSchema } from './level.schema';
 // import { ConnectionsModel } from '../../models';

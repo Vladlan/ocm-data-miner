@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import {
   OcmImportMetaDocument,
@@ -12,6 +12,7 @@ import { Model } from 'mongoose';
 import { map, firstValueFrom } from 'rxjs';
 import { OCM_API_KEY, OCM_API_URL, OCM_DATA_SOURCE_URL } from '../constants';
 import { ConfigService } from '@nestjs/config';
+import { getOneWeekAgo } from '../utils';
 
 const POI_REQUIRED_KEYS = [
   'OperatorInfo',
@@ -31,11 +32,9 @@ export class OcmDataImportService {
   ) {}
 
   getOcmData(since: string): any {
-    const since2 = '2023-05-26T15:55:49.454Z';
     const key = this.configService.get(OCM_API_KEY);
     const url = this.configService.get(OCM_API_URL);
-    const finalUrl = OCM_DATA_SOURCE_URL(url, key, since2)
-    console.log(`finalUrl: `, finalUrl);
+    const finalUrl = OCM_DATA_SOURCE_URL(url, key, since);
     return this.httpService.get(finalUrl).pipe(
       map((res) => {
         return res.data.map((poi) => {
@@ -49,36 +48,28 @@ export class OcmDataImportService {
     );
   }
 
-  async importOcmData(): Promise<any> {
-    const lastImportStartTimestamp = new Date().toISOString();
+  async importOcmData() {
+    const importStartTimestamp = new Date().toISOString();
+    const oneWeekAgo = getOneWeekAgo();
     const lastInsertData = await this.ocmImportMetaModel.findOne({
       where: { type: TYPE_LAST_IMPORT_START_TIMESTAMP },
     });
-    const since =
-      lastInsertData?.lastImportStartTimestamp || lastImportStartTimestamp;
-    const ocmData = await firstValueFrom(this.getOcmData(since));
-    console.log('ocmData: ', ocmData);
 
-    const poi = await this.poiModel.create(ocmData, {
+    const since =
+      lastInsertData?.lastImportStartTimestamp || oneWeekAgo;
+    const ocmData = await firstValueFrom(this.getOcmData(since));
+    const pois = await this.poiModel.create(ocmData, {
       validateBeforeSave: false,
     });
-    console.log('poi: ', poi);
-
-    if (lastInsertData) {
-      const res1 = await this.ocmImportMetaModel.updateOne(
-        { type: TYPE_LAST_IMPORT_START_TIMESTAMP },
-        {
-          lastImportStartTimestamp,
-        }
-      );
-      console.log('res1: ', res1);
-      return res1;
+    if (pois && pois.length) {
+      Logger.log(`Successfully inserted ${pois.length} POIs`);
     }
-    const res2 = await this.ocmImportMetaModel.create({
-      type: TYPE_LAST_IMPORT_START_TIMESTAMP,
-      lastImportStartTimestamp,
-    });
-    console.log('res2: ', res2);
-    return res2;
+    return await this.ocmImportMetaModel.updateOne(
+      { type: TYPE_LAST_IMPORT_START_TIMESTAMP },
+      {
+        lastImportStartTimestamp: importStartTimestamp,
+      },
+      { upsert: true }
+    );
   }
 }
