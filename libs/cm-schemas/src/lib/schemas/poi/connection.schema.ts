@@ -1,6 +1,6 @@
 import { Prop, Schema, raw } from '@nestjs/mongoose';
-import { IConnectionType } from '../types/connection-type.type';
 import { Document } from 'mongoose';
+import { IConnectionType } from '../../types';
 
 @Schema()
 export class ConnectionsSchema extends Document {
@@ -59,7 +59,7 @@ export class ConnectionsSchema extends Document {
     })
   )
   CurrentType: Record<string, any>;
-  
+
   @Prop()
   Quantity: number;
 }

@@ -1,5 +1,5 @@
 import { Prop, Schema } from '@nestjs/mongoose';
-import { ICountry } from '../types/country.type';
+import { ICountry } from '../../types/country.type';
 import { CountrySchema } from './country.schema';
 
 @Schema()

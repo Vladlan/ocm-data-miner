@@ -1,27 +1,14 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { IAddressInfo } from '../types/address-info.type';
-import { IOperatorInfo } from '../types/operator-info.type';
-import { IStatusType } from '../types/status-type.type';
 import { AddressInfoSchema } from './address-info.schema';
 import { OperatorInfoSchema } from './operator-info.schema';
 import { StatusTypeSchema } from './status-type.schema';
 import { Types } from 'mongoose';
 import { UUID } from 'bson';
-import { ConnectionsSchema } from './connection.schema';
+import { IAddressInfo, IConnections, IOperatorInfo, IStatusType } from '../../types';
+import { ConnectionsModel } from '../../models';
 
 export type POIDocument = POISchema & Document;
-
-type IConnections = {
-  ID: number;
-  ConnectionTypeID: number;
-  StatusTypeID: number;
-  LevelID: number;
-  PowerKW: number;
-  CurrentTypeID: number;
-  Quantity: number;
-};
-export const ConnectionsModel = SchemaFactory.createForClass(ConnectionsSchema);
 
 @Schema({
   storeSubdocValidationError: false,

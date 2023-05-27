@@ -1,4 +1,4 @@
 import { SchemaFactory } from '@nestjs/mongoose';
 import { ConnectionsSchema } from '../schemas';
 
-export const ConnectionModel = SchemaFactory.createForClass(ConnectionsSchema);
+export const ConnectionsModel = SchemaFactory.createForClass(ConnectionsSchema);
