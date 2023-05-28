@@ -7,6 +7,9 @@ import { MONGO_URL } from '../constants';
 import Joi from 'joi';
 import { MongooseModule } from '@nestjs/mongoose';
 import { POIModule } from '../poi/poi.module';
+import { GraphQLModule } from '@nestjs/graphql';
+import { join } from 'path';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 
 @Module({
   imports: [
@@ -22,6 +25,10 @@ import { POIModule } from '../poi/poi.module';
         uri: configService.get(MONGO_URL),
       }),
       inject: [ConfigService],
+    }),
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      driver: ApolloDriver,
     }),
   ],
   controllers: [AppController],

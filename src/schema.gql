@@ -1,0 +1,88 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type CountryGq {
+  ISOCode: String!
+  ContinentCode: String!
+  ID: Float!
+  Title: String!
+}
+
+type OperatorInfoGq {
+  WebsiteURL: String!
+  PhonePrimaryContact: String!
+  IsPrivateIndividual: Boolean!
+  ContactEmail: String!
+  IsRestrictedEdit: Boolean!
+  ID: Int!
+  Title: String!
+}
+
+type StatusTypeGq {
+  IsOperational: Boolean!
+  IsUserSelectable: Boolean!
+  ID: Int!
+  Title: String!
+}
+
+type AddressInfoGq {
+  ID: Int!
+  Title: String!
+  AddressLine1: String!
+  Town: String!
+  StateOrProvince: String!
+  Postcode: String!
+  CountryID: Int!
+  Country: CountryGq!
+  Latitude: Float!
+  Longitude: Float!
+  DistanceUnit: Int!
+}
+
+type ConnectionTypeGq {
+  FormalName: String!
+  IsDiscontinued: Boolean!
+  IsObsolete: Boolean!
+  ID: Int!
+  Title: String!
+}
+
+type LevelGq {
+  Comments: String!
+  IsFastChargeCapable: Boolean!
+  ID: Float!
+  Title: String!
+}
+
+type CurrentTypeGq {
+  Description: String!
+  ID: Float!
+  Title: String!
+}
+
+type ConnectionsGq {
+  ID: Int!
+  ConnectionTypeID: Int!
+  ConnectionType: ConnectionTypeGq!
+  StatusType: StatusTypeGq!
+  StatusTypeID: Int!
+  Level: LevelGq!
+  LevelID: Int!
+  PowerKW: Float!
+  CurrentTypeID: Int!
+  CurrentType: CurrentTypeGq!
+  Quantity: Float!
+}
+
+type PoiGq {
+  _id: ID!
+  OperatorInfo: OperatorInfoGq!
+  StatusType: StatusTypeGq!
+  AddressInfo: AddressInfoGq!
+  Connections: [ConnectionsGq!]!
+}
+
+type Query {
+  getPoi(id: String!): PoiGq!
+}

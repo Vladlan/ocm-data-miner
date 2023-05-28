@@ -11,12 +11,12 @@ export class POIService {
     @InjectModel(POISchema.name) private poiModel: Model<POIDocument>
   ) {}
 
-  async findById(id: string): Promise<POISchema> {
+  async findById(id: string): Promise<POIDocument> {
     const poi = await this.poiModel.findById(from(id));
     return poi;
   }
 
-  async create(): Promise<any> {
+  async create(): Promise<POIDocument[]> {
     const poi = await this.poiModel.create(mockData, {
       validateBeforeSave: false,
     });
