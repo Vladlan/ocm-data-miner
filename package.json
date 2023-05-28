@@ -2,7 +2,9 @@
   "name": "@ocm-data-miner/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "start.docker": "docker build -f Dockerfile.base -t ocm-data-miner-base-img:nx-dev . && docker-compose -f docker-compose.dev.yml up"
+  },
   "private": true,
   "dependencies": {
     "@nestjs/axios": "^2.0.0",

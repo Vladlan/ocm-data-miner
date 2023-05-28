@@ -1,0 +1,54 @@
+version: '3.8'
+services:
+  cm-api:
+      container_name: cm-api
+      depends_on:
+        - mongodb
+      build:
+        context: ./
+        cache_from:
+          - ocm-data-miner-base-img:nx-dev
+        dockerfile: ./apps/cm-api/Dockerfile
+      image: cm-api:nx-dev
+      ports:
+        - 3000:3000
+      env_file:
+        - ./apps/cm-api/.env
+      environment:
+        - MONGO_URL=mongodb://root:admin@mongodb:27017/cm-data?authSource=admin&readPreference=primary&ssl=false
+      networks:
+        - cm-net
+      restart: on-failure
+  ocm-data-importer:
+      container_name: ocm-data-importer
+      depends_on:
+        - mongodb
+      build:
+        context: ./
+        cache_from:
+          - ocm-data-miner-base-img:nx-dev
+        dockerfile: ./apps/ocm-data-importer/Dockerfile
+      image: ocm-data-importer:nx-dev
+      env_file:
+        - ./apps/ocm-data-importer/.env
+      environment:
+        - MONGO_URL=mongodb://root:admin@mongodb:27017/cm-data?authSource=admin&readPreference=primary&ssl=false
+      networks:
+        - cm-net
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb-cm
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    ports:
+      - 27017:27017
+    networks:
+      - cm-net
+    volumes:
+      - mongodb_data:/data/db
+volumes:
+  mongodb_data:
+    driver: local
+networks:
+  cm-net:
