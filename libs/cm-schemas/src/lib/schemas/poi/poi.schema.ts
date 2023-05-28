@@ -1,4 +1,4 @@
-import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { AddressInfoSchema } from './address-info.schema';
 import { OperatorInfoSchema } from './operator-info.schema';

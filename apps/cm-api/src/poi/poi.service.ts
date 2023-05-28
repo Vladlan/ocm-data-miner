@@ -4,6 +4,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { POIDocument, POISchema } from '@ocm-data-miner/cm-schemas';
 import { from } from 'uuid-mongodb';
 import { mockData } from './mock-data';
+import { connectionFromArraySlice } from 'graphql-relay';
+import { ConnectionArgs, getPagingParameters } from '../relay';
 
 @Injectable()
 export class POIService {
@@ -14,6 +16,21 @@ export class POIService {
   async findById(id: string): Promise<POIDocument> {
     const poi = await this.poiModel.findById(from(id));
     return poi;
+  }
+
+  async findAll(args: ConnectionArgs) {
+    const { limit, offset } = getPagingParameters(args);
+    const [results, count] = await Promise.all([
+      this.poiModel.find({}, null, {
+        limit,
+        skip: offset,
+      }),
+      this.poiModel.countDocuments(),
+    ]);
+    return connectionFromArraySlice(results, args, {
+      arrayLength: count,
+      sliceStart: offset || 0,
+    });
   }
 
   async create(): Promise<POIDocument[]> {

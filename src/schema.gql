@@ -83,6 +83,24 @@ type PoiGq {
   Connections: [ConnectionsGq!]!
 }
 
+type PoisConnection {
+  edges: [PoiGqEdge!]
+  pageInfo: PoiGqPageInfo
+}
+
+type PoiGqEdge {
+  cursor: String
+  node: PoiGq
+}
+
+type PoiGqPageInfo {
+  startCursor: String
+  endCursor: String
+  hasPreviousPage: Boolean!
+  hasNextPage: Boolean!
+}
+
 type Query {
+  pois(before: String, after: String, first: Float, last: Float): PoisConnection!
   getPoi(id: String!): PoiGq!
 }

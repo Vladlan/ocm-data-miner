@@ -1,6 +1,8 @@
 import { Resolver, Query, Args, ArgsType, Field } from '@nestjs/graphql';
-import { POIService } from '../poi.service';
 import { PoiGq } from '@ocm-data-miner/cm-schemas';
+import { POIService } from '../poi.service';
+import { PoisConnection } from './poi.response';
+import { ConnectionArgs } from '../../relay';
 
 @ArgsType()
 export class getPoiArg {
@@ -11,16 +13,12 @@ export class getPoiArg {
 @Resolver(PoiGq)
 export default class PoiResolver {
   constructor(private readonly poiService: POIService) {}
-  // @Query(() => [PoiGq])
-  // public async getPois(): Promise<Poi[]> {
-  //   const pois = await this.poiService.findAllPois();
-  //   return pois;
-  // }
 
-  // @Query(() => PoisConnection, { name: 'pois' })
-  // pois(@Args() args: ConnectionArgs) {
-  //   return this.poiService.findAllPoisRelay(args);
-  // }
+  @Query(() => PoisConnection, { name: 'pois' })
+  public async getPois(@Args() args: ConnectionArgs) {
+    const pois = await this.poiService.findAll(args);
+    return pois;
+  }
 
   @Query(() => PoiGq)
   public async getPoi(@Args() arg: getPoiArg): Promise<PoiGq> {
