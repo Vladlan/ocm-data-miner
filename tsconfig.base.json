@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@ocm-data-miner/cm-schemas": ["libs/cm-schemas/src/index.ts"]
+      "@ocm-data-miner/cm-schemas": ["libs/cm-schemas/src/index.ts"],
+      "@ocm-data-miner/relay": ["libs/relay/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -2,7 +2,7 @@ import { Resolver, Query, Args, ArgsType, Field } from '@nestjs/graphql';
 import { PoiGq } from '@ocm-data-miner/cm-schemas';
 import { POIService } from '../poi.service';
 import { PoisConnection } from './poi.response';
-import { ConnectionArgs } from '../../relay';
+import { ConnectionArgs } from '@ocm-data-miner/relay';
 
 @ArgsType()
 export class getPoiArg {

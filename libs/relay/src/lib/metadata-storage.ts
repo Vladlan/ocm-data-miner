@@ -12,6 +12,7 @@ export class MetadataStorage {
     const { target, key, ...data } = args;
     const existingMetadata = MetadataStorage.getMethodMetadata({ target, key });
     const metadata = [...existingMetadata, data];
+    if (!key) throw new Error('key is undefined')
     Reflect.defineMetadata(METHOD_METADATA_KEY, metadata, target, key);
   }
 
@@ -19,6 +20,7 @@ export class MetadataStorage {
     target,
     key,
   }: MethodIdentifier): ParameterMetadata[] {
+    if (!key) throw new Error('key is undefined')
     return Reflect.getMetadata(METHOD_METADATA_KEY, target, key) || [];
   }
 

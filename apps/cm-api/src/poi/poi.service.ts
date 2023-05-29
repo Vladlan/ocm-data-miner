@@ -5,7 +5,7 @@ import { POIDocument, POISchema } from '@ocm-data-miner/cm-schemas';
 import { from } from 'uuid-mongodb';
 import { mockData } from './mock-data';
 import { connectionFromArraySlice } from 'graphql-relay';
-import { ConnectionArgs, getPagingParameters } from '../relay';
+import { ConnectionArgs, getPagingParameters } from '@ocm-data-miner/relay';
 
 @Injectable()
 export class POIService {

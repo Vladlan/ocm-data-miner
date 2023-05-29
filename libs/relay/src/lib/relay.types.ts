@@ -47,7 +47,7 @@ export const CLASS_METADATA_KEY = `${BASE_KEY}:${CLASS_KEY}`;
 export interface MethodIdentifier {
   // eslint-disable-next-line @typescript-eslint/ban-types
   target: Object;
-  key: string | symbol;
+  key: string | symbol | undefined;
 }
 
 export interface ClassIdentifier {

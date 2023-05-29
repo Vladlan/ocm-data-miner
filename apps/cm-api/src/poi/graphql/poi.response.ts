@@ -1,8 +1,7 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { PoiGq } from '@ocm-data-miner/cm-schemas';
 import { ConnectionCursor, Edge } from 'graphql-relay';
-import { CreateConnectionType } from '../../relay';
-
+import { CreateConnectionType } from '@ocm-data-miner/relay';
 
 @ObjectType()
 export class PoisConnection extends CreateConnectionType<PoiGq>(PoiGq) {}
