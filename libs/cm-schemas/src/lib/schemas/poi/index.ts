@@ -1,6 +1,6 @@
 export * from './address-info.schema';
 export * from './connection-type.schema';
-// export * from './connection.schema';
+export * from './connections.schema';
 export * from './country.schema';
 export * from './current-type.schema';
 export * from './level.schema';

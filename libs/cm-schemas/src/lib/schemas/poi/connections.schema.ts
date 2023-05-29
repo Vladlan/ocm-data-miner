@@ -1,16 +1,21 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { IConnectionType, ICurrentType, ILevel, IStatusType } from '../types';
-import { CurrentTypeSchema } from '../schemas/poi/current-type.schema';
-import { LevelSchema } from '../schemas/poi/level.schema';
-import { StatusTypeSchema } from '../schemas/poi/status-type.schema';
-import { ConnectionTypeSchema } from '../schemas/poi/connection-type.schema';
+import {
+  IConnectionType,
+  ICurrentType,
+  ILevel,
+  IStatusType,
+} from '../../types';
+import { ConnectionTypeSchema } from './connection-type.schema';
+import { StatusTypeSchema } from './status-type.schema';
+import { LevelSchema } from './level.schema';
+import { CurrentTypeSchema } from './current-type.schema';
 
 @Schema({
   storeSubdocValidationError: false,
   strict: false,
 })
-class ConnectionsSchema1 extends Document {
+export class ConnectionsSchema extends Document {
   @Prop()
   ID: number;
 
@@ -48,6 +53,3 @@ class ConnectionsSchema1 extends Document {
   @Prop()
   Quantity: number;
 }
-
-export const ConnectionsModel =
-  SchemaFactory.createForClass(ConnectionsSchema1);
