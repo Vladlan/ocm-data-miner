@@ -1,7 +1,12 @@
 # OcmDataMiner
 
-Service #1: OCM data importer from https://openchargemap.org  
-Service #2: GraphQL (relay) API   
+Service #1 - ocm-data-importer: OCM data importer from https://openchargemap.org  
+Service #2 - cm-api:            GraphQL (relay) API   
+
+To start services run: `yarn start.docker`
+
+Than you can navigate to `http://localhost:3000/graphql` to run graphql query.
+
 
 Example query
 ```grapql
@@ -11,71 +16,15 @@ query {
       cursor
       node {
         _id
-        OperatorInfo {
-          WebsiteURL
-          PhonePrimaryContact
-          IsPrivateIndividual
-          ContactEmail
-          IsRestrictedEdit
+        Connections {
           ID
-          Title
+          Quantity
         }
-        StatusType {
-          IsOperational
-          IsUserSelectable
-          ID
+        OperatorInfo {
           Title
         }
         AddressInfo {
-          ID
           Title
-          AddressLine1
-          Town
-          StateOrProvince
-          Postcode
-          CountryID
-          Country {
-            ISOCode
-            ContinentCode
-            ID
-            Title
-          }
-          Latitude
-          Longitude
-          DistanceUnit
-        }
-        Connections {
-          ID
-          ConnectionTypeID
-          ConnectionType {
-            FormalName
-            IsDiscontinued
-            IsObsolete
-            ID
-            Title
-          }
-          StatusType {
-            IsOperational
-            IsUserSelectable
-            ID
-            Title
-          }
-          StatusTypeID
-          Level {
-            Comments
-            IsFastChargeCapable
-            ID
-            Title
-          }
-          LevelID
-          PowerKW
-          CurrentTypeID
-          CurrentType {
-            Description
-            ID
-            Title
-          }
-          Quantity
         }
       }
     }
